@@ -1,0 +1,25 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>HomeView</title>
+</head>
+<body>
+    <div> 
+        My First ASP.NET MVC Home Page! <br />
+        Login Time is : @Session["StartDateTime"] <br />
+        Author Name is : @TempData["Name"] <br />
+        Current Time is (ViewData): ViewData["CurrentDateTime"] <br />
+        <br />
+        <br />
+        <a href="/Customer/ShowCustomerView"> Add New Customers</a><br />
+        <a href="/Customer/ShowSearchCustomerView"> Search Customers </a><br />
+    </div>
+</body>
+</html>

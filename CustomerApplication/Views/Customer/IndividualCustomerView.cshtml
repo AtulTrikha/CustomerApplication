@@ -1,0 +1,66 @@
+﻿@model CustomerApplication.ViewModels.Customer.IndividualCustomerViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>IndividualCustomerView</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+</head>
+<body>
+    <div>
+        <form id="CustomerForm" name="CustomerForm">
+            <i>Customer Code:</i> @Html.TextBoxFor(c => c.Customer.CustomerCode) @Html.ValidationMessageFor(c => c.Customer.CustomerCode)<br />
+            <i>Customer Name:</i> @Html.TextBoxFor(c => c.Customer.CustomerName) @Html.ValidationMessageFor(c => c.Customer.CustomerName)<br />
+            <i>Customer Age:</i>  @Html.TextBoxFor(c => c.Customer.CustomerDob)  @Html.ValidationMessageFor(c => c.Customer.CustomerDob)<br />
+        </form>
+        <input id="SaveCustomer" name="SaveCustomer" type="button" value="Save Customer" onclick="SaveCustomer()" /><br />
+        <div id="LoadingLabel"></div>
+        <table id="CustomerTable">
+            <tr>
+                <td>Customer Code</td>
+                <td>Customer Name</td>
+                <td>Customer Dob</td>
+            </tr>
+        </table>
+        <script language="javascript">
+             $("#LoadingLabel").text("Loading Data..");
+            $.get("GetCustomerJson", null, BindCustomerData);
+
+            //Function used to fetch the Customer Data and refresh the grid
+            function BindCustomerData(Customers) {
+                var customerTable = $("#CustomerTable");
+                debugger;
+                for (var i = 0; i < Customers.length; i++) {
+                    var newRow = "<tr>" +
+                                    "<td>" + Customers[i].CustomerCode + "</td>" +
+                                    "<td>" + Customers[i].CustomerName + "</td>" +
+                                    "<td>" + Customers[i].CustomerDob + "</td>" +
+                                    "</tr>"
+                    customerTable.append(newRow);
+                }
+                $("#LoadingLabel").text("");
+            }
+
+            //Function used to Save the customer and call the function to fetch the Customer Data and refresh the grid
+            function SaveCustomer() {
+                debugger;
+                $("#LoadingLabel").text("Adding please wait....");
+                var serializedCustomerForm = $("#CustomerForm").serialize();
+                $.post("SaveCustomer", serializedCustomerForm, BindCustomerData);
+                debugger;
+                $("#Customer_CustomerCode").val("");
+                $("#Customer_CustomerName").val("");
+                $("#Customer_CustomerDob").val("");
+            }
+        </script>
+    </div>
+</body>
+</html>
