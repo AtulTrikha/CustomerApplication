@@ -11,7 +11,8 @@ using CustomerApplication.ViewModels.Customer;
 
 namespace CustomerApplication.Controllers.Customer
 {
-    [Authorize(Users = @"DESKTOP-IMS4T64\Atul")]
+    //[Authorize(Users = @"DESKTOP-IMS4T64\Atul")] --Not required for Form Authentication
+    [Authorize]
     public class CustomerController : Controller
     {
 
