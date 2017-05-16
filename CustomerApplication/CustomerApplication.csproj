@@ -175,6 +175,8 @@
     <Content Include="Views\Shared\HomeView.cshtml" />
     <Content Include="Views\Customer\IndividualCustomerView.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Customer\DisplayCustomers.cshtml" />
+    <Content Include="Views\Customer\SearchCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

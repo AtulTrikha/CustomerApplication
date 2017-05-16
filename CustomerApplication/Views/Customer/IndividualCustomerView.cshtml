@@ -9,58 +9,55 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>IndividualCustomerView</title>
+    <title>EnterCustomer</title>
 </head>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/angular.js"></script>
+<script language="javascript">
+    function CustomerViewModel($scope, $http) {
 
-<body ng-app="CustomerApplication">
-    <a href="/Home/Index"> Home </a>
+        $scope.Customer = {
+            "CustomerCode": "",
+            "CustomerName": "",
+            "CustomerDob": "",
+            "CustomerAmount": "",
+            "CustomerAmountColor": ""
+        };
+        $scope.Customers = {};
+        $scope.$watch("Customers", function () {
 
-    <div ng-controller="CustomerViewModel">
+            for (var x = 0; x < $scope.Customers.length; x++) {
 
-        <form id="CustomerForm" name="CustomerForm">
-            <i>Customer Code:</i>    <input id="CustomerCode" name="Customer.CustomerCode" ng-model="Customer.CustomerCode" type="text" />
-            @Html.ValidationMessageFor(c => c.Customer.CustomerCode)<br />
+                var cust = $scope.Customers[x];
+                cust.CustomerAmountColor = $scope.getColor(cust.CustomerAmount);
+            }
+        });
 
-            <i>Customer Name:</i>    <input id="CustomerName" name="Customer.CustomerName" ng-model="Customer.CustomerName" type="text" />
-            @Html.ValidationMessageFor(c => c.Customer.CustomerName)<br />
+        $scope.getColor = function (Amount) {
+            if (Amount == 0) {
+                return "";
 
-            <i>Customer DOB:</i>     <input id="CustomerDob" name="Customer.CustomerDob" ng-model="Customer.CustomerDob" type="text" />
-            @Html.ValidationMessageFor(c => c.Customer.CustomerDob)<br />
+            }
+            else if (Amount > 100) {
+                return "Blue";
+            }
+            else {
+                return "Red";
+            }
 
-            <i>Customer Amount:</i>  <input id="CustomerAmount" name="Customer.CustomerAmount" ng-model="Customer.CustomerAmount" type="text"
-                                            style="background-color: {{Customer.CustomerAmountColor}}" />
-            @Html.ValidationMessageFor(c => c.Customer.CustomerAmount)<br />
-        </form>
-        <input id="SaveCustomer" name="SaveCustomer" type="button" value="Save Customer" ng-click="Add()" /><br />
-
-        <table id="CustomerTable">
-            <tr>
-                <td>Customer Code</td>
-                <td>Customer Name</td>
-                <td>Customer Dob</td>
-                <td>Color</td>
-                <td>Customer Amount</td>
-            </tr>
-            <tr ng-repeat="cust in Customers">
-                <td>{{cust.CustomerCode}}</td>
-                <td>{{cust.CustomerName}}</td>
-                <td>{{cust.CustomerDob}}</td>
-                <td>{{cust.CustomerAmountColor}}</td>
-                <td style="background-color: {{ cust.CustomerAmountColor }}">
-                    {{cust.CustomerAmount}}
-                </td>
-            </tr>
-        </table>
-    </div>
-
-        <script src="~/Scripts/jquery-1.10.2.js"></script>
-        <script src="~/Scripts/jquery.validate.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-        <script src="~/Scripts/angular.js"></script>              
-
-        <script language="javascript">
-                function CustomerViewModel($scope,$http) {
-
+        }
+        $scope.$watch("Customer.CustomerAmount", function () {
+            $scope.Customer.CustomerAmountColor = $scope.
+                getColor($scope.Customer.CustomerAmount);
+        });
+        $scope.Add = function () {
+            // make a call to server to add data
+            $http({ method: "POST", data: $scope.Customer, url: "SaveCustomer" }).
+                then(function (response, status, headers, config) {
+                    $scope.Customers = response.data;
+                    // Load the collection of customer.
                     $scope.Customer = {
                         "CustomerCode": "",
                         "CustomerName": "",
@@ -68,65 +65,66 @@
                         "CustomerAmount": "",
                         "CustomerAmountColor": ""
                     };
+                });
+        }
+        $scope.Load = function () {
+            $http({ method: "GET", url: "GetCustomerJson" }).
+        then(function (response, status, headers, config) {
+            debugger;
+            $scope.Customers = response.data;
 
-                    $scope.Customers = {};
+        });
 
-                    $scope.$watch("Customers", function () {
+        }
 
-                         for (var x = 0; x < Customers.length; x++) {
-                            var cust = $scope.Customers[x];
-                            cust.CustomerAmountColor = $scope.getColor(cust.CustomerAmount);
-                        }
-                    });
+        $scope.Load();
+        // App
+    }
+    var app = angular.module("myApp", []); // creating a APP
 
-                    $scope.GetColor = function (Amount) {
-                        if (Amount == 0) {
-                            return "";
-                        }
-                        else if (Amount >= 10000) {
-                            return "Aqua";
-                        }
-                        else {
-                            return "Yellow";
-                        }
-                    };
+    app.controller('CustomerViewModel', CustomerViewModel); // Registering the VM
+    // Controller
+</script>
 
-                    $scope.$watch("Customer.CustomerAmount", function () {
-                        $scope.Customer.CustomerAmountColor = $scope.GetColor($scope.Customer.CustomerAmount);
-                    });
-                    
-                    $scope.Add = function () {
-                        // make a call to server to add data
-                        $http({ method: "POST", data: $scope.Customer, url: "SaveCustomer" }).then(function (response, status, headers, config) {
 
-                            debugger;
-                            //Get Data
-                            $scope.Customers = response.data;;
+<body ng-app="myApp">
+    <a href="/Home/Index"> Home </a>
+    <br />
+    <div>
+        <div ng-controller="CustomerViewModel">
+            <form id="frm1">
+                <i> Customer Code </i> <input id="Text1" ng-model="Customer.CustomerCode" type="text" name="Customer.CustomerCode" /><br />
+                @Html.ValidationMessageFor(x => x.Customer.CustomerCode)<br />
 
-                            // Load the collection of customer.
-                            $scope.Customer = {
-                                "CustomerCode": "",
-                                "CustomerName": "",
-                                "CustomerAmount": "",
-                                "CustomerAmountColor": ""
-                            };  
-                        });
-                    }
+                <i>Customer Name</i> <input id="Text1" ng-model="Customer.CustomerName" type="text" name="Customer.CustomerName" /> <br />
+                @Html.ValidationMessageFor(x => x.Customer.CustomerName)<br />
 
-                    $scope.Load = function () {
-                        // make a call to server to add data
-                        $http({ method: "GET", url: "GetCustomerJson" }).then(function (response, status, headers, config) {
 
-                            //Get Data
-                            $scope.Customers = response.data;
-                           });
-                    }
-                    $scope.Load();
-                }
+                <i> Customer DOB </i> <input id="Text1" ng-model="Customer.CustomerDob" type="text" name="Customer.CustomerDob" /><br />
+                @Html.ValidationMessageFor(x => x.Customer.CustomerDob)<br />
 
-                var customerApp = angular.module("CustomerApplication", [])
-                customerApp.controller("CustomerViewModel", CustomerViewModel)
-            </script>
+                <i> Customer Amount </i> <input id="Text1" type="text" ng-model="Customer.CustomerAmount"
+                                                style="background-color: {{ Customer.CustomerAmountColor }}"
+                                                name="customer.CustomerAmount" /><br />
+            </form>
+            <input id="Btn" type="button" value="Add customer" ng-click="Add()" />
 
+            <br />
+            <table id="tbl">
+                <tr>
+                    <td>Customer Code</td>
+                    <td>Customer Name</td>
+                    <td>Customer Amount</td>
+                </tr>
+                <tr ng-repeat="cust in Customers">
+                    <td>{{cust.CustomerCode}}</td>
+                    <td>{{cust.CustomerName}}</td>
+                    <td style="background-color: {{ cust.CustomerAmountColor }}">
+                        {{cust.CustomerAmount}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
