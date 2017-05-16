@@ -1,4 +1,4 @@
-﻿@model CustomerApplication.ViewModel.CustomerViewModel
+﻿@model CustomerApplication.ViewModels.Customer.IndividualCustomerViewModel
 @using CustomerApplication.Models;
 @*<table>
     <tr>
@@ -14,6 +14,6 @@
     }
 </table>*@
 @{
-    WebGrid obj = new WebGrid(Model.customers);
+    WebGrid obj = new WebGrid(Model.Customers);
 }
 @obj.GetHtml();

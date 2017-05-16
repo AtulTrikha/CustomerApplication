@@ -1,4 +1,4 @@
-﻿@model CustomerApplication.ViewModel.CustomerViewModel
+﻿@model CustomerApplication.ViewModels.Customer.IndividualCustomerViewModel
 @using CustomerApplication.Models;
 @{
     Layout = null;
@@ -15,9 +15,9 @@
     <a href="/Home/Index"> Home </a><br />
     <div> 
         <form action="SearchCustomer" method="post">
-        Enter Customer Name :- <input name="txtCustomerName" id="Text1" type="text" />
+        Enter Customer Name :- <input name="CustomerName" id="CustomerName" type="text" />
             <br />
-            <input id="Submit1" type="submit" value="Search Customer" />
+            <input id="SearchCustomer" type="submit" value="Search Customer" />
         </form>
     </div>
     <br />
