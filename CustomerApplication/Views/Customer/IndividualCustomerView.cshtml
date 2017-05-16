@@ -10,57 +10,128 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>IndividualCustomerView</title>
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
-    <script src="~/Scripts/jquery.validate.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 </head>
-<body>
-    <div>
+
+<body ng-app="CustomerApplication">
+    <a href="/Home/Index"> Home </a>
+
+    <div ng-controller="CustomerViewModel">
+
         <form id="CustomerForm" name="CustomerForm">
-            <i>Customer Code:</i> @Html.TextBoxFor(c => c.Customer.CustomerCode) @Html.ValidationMessageFor(c => c.Customer.CustomerCode)<br />
-            <i>Customer Name:</i> @Html.TextBoxFor(c => c.Customer.CustomerName) @Html.ValidationMessageFor(c => c.Customer.CustomerName)<br />
-            <i>Customer Age:</i>  @Html.TextBoxFor(c => c.Customer.CustomerDob)  @Html.ValidationMessageFor(c => c.Customer.CustomerDob)<br />
+            <i>Customer Code:</i>    <input id="CustomerCode" name="Customer.CustomerCode" ng-model="Customer.CustomerCode" type="text" />
+            @Html.ValidationMessageFor(c => c.Customer.CustomerCode)<br />
+
+            <i>Customer Name:</i>    <input id="CustomerName" name="Customer.CustomerName" ng-model="Customer.CustomerName" type="text" />
+            @Html.ValidationMessageFor(c => c.Customer.CustomerName)<br />
+
+            <i>Customer DOB:</i>     <input id="CustomerDob" name="Customer.CustomerDob" ng-model="Customer.CustomerDob" type="text" />
+            @Html.ValidationMessageFor(c => c.Customer.CustomerDob)<br />
+
+            <i>Customer Amount:</i>  <input id="CustomerAmount" name="Customer.CustomerAmount" ng-model="Customer.CustomerAmount" type="text"
+                                            style="background-color: {{Customer.CustomerAmountColor}}" />
+            @Html.ValidationMessageFor(c => c.Customer.CustomerAmount)<br />
         </form>
-        <input id="SaveCustomer" name="SaveCustomer" type="button" value="Save Customer" onclick="SaveCustomer()" /><br />
-        <div id="LoadingLabel"></div>
+        <input id="SaveCustomer" name="SaveCustomer" type="button" value="Save Customer" ng-click="Add()" /><br />
+
         <table id="CustomerTable">
             <tr>
                 <td>Customer Code</td>
                 <td>Customer Name</td>
                 <td>Customer Dob</td>
+                <td>Customer Amount</td>
+            </tr>
+            <tr ng-repeat="cust in $scope.Customers">
+                <td>{{cust.CustomerCode}}</td>
+                <td>{{cust.CustomerName}}</td>
+                <td>{{cust.CustomerDob}}</td>
+                <td style="background-color: {{ cust.CustomerAmountColor }}">
+                    {{cust.CustomerAmount}}
+                </td>
             </tr>
         </table>
-        <script language="javascript">
-             $("#LoadingLabel").text("Loading Data..");
-            $.get("GetCustomerJson", null, BindCustomerData);
-
-            //Function used to fetch the Customer Data and refresh the grid
-            function BindCustomerData(Customers) {
-                var customerTable = $("#CustomerTable");
-                debugger;
-                for (var i = 0; i < Customers.length; i++) {
-                    var newRow = "<tr>" +
-                                    "<td>" + Customers[i].CustomerCode + "</td>" +
-                                    "<td>" + Customers[i].CustomerName + "</td>" +
-                                    "<td>" + Customers[i].CustomerDob + "</td>" +
-                                    "</tr>"
-                    customerTable.append(newRow);
-                }
-                $("#LoadingLabel").text("");
-            }
-
-            //Function used to Save the customer and call the function to fetch the Customer Data and refresh the grid
-            function SaveCustomer() {
-                debugger;
-                $("#LoadingLabel").text("Adding please wait....");
-                var serializedCustomerForm = $("#CustomerForm").serialize();
-                $.post("SaveCustomer", serializedCustomerForm, BindCustomerData);
-                debugger;
-                $("#Customer_CustomerCode").val("");
-                $("#Customer_CustomerName").val("");
-                $("#Customer_CustomerDob").val("");
-            }
-        </script>
     </div>
+
+        <script src="~/Scripts/jquery-1.10.2.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+        <script src="~/Scripts/angular.js"></script>              
+
+        <script language="javascript">
+                function CustomerViewModel($scope,$http) {
+
+                    $scope.Customer = {
+                        "CustomerCode": "",
+                        "CustomerName": "",
+                        "CustomerDob": "",
+                        "CustomerAmount": "",
+                        "CustomerAmountColor": ""
+                    };
+
+                    $scope.Customers = {};
+
+                    $scope.$watch("Customers", function () {
+
+                        for (var x = 0; x < $scope.Customers.length; x++) {
+                            var cust = $scope.Customers[x];
+                            cust.CustomerAmountColor = $scope.getColor(cust.CustomerAmount);
+                        }
+                    });
+
+                    $scope.GetColor = function (Amount) {
+                        if (Amount == 0) {
+                            return "";
+                        }
+                        else if (Amount >= 10000) {
+                            return "Aqua";
+                        }
+                        else {
+                            return "Yellow";
+                        }
+                    };
+
+                    $scope.$watch("Customer.CustomerAmount", function () {
+                        $scope.Customer.CustomerAmountColor = $scope.GetColor($scope.Customer.CustomerAmount);
+                    });
+                    
+                    $scope.Add = function () {
+                        // make a call to server to add data
+                        $http({ method: "POST", data: $scope.Customer, url: "SaveCustomer" }).then(function (data, status, headers, config){
+
+                            debugger;
+                            //Get Data
+                            $scope.Customers = data;
+
+                            // Load the collection of customer.
+                            $scope.Customer = {
+                                "CustomerCode": "",
+                                "CustomerName": "",
+                                "CustomerAmount": "",
+                                "CustomerAmountColor": ""
+                            };  
+                        });
+                    }
+
+                    $scope.Load = function () {
+                        // make a call to server to add data
+                        $http({ method: "GET", url: "GetCustomerJson" }).success(function (data, status, headers, config) {
+
+                            //Get Data
+                            $scope.Customers = data;
+                           });
+                    }
+
+                    //$scope.Load = function () {
+                    //    $http({ method: "GET", url: "GetCustomerJson" }).success(function (data, status, headers, config) {
+                    //        $scope.Customers = data;
+                    //    });
+                    //}
+
+                    //$scope.Load();
+                }
+
+                var customerApp = angular.module("CustomerApplication", [])
+                customerApp.controller("CustomerViewModel", CustomerViewModel)
+            </script>
+
 </body>
 </html>

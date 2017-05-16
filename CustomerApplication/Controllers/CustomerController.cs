@@ -49,15 +49,10 @@ namespace CustomerApplication.Controllers.Customer
             return View("SearchCustomerView", customerViewModel);
         }
 
-        public ActionResult SaveCustomer()
+        public ActionResult SaveCustomer(IndividualCustomer customer)
         {
             try
             {
-                IndividualCustomer customer = new IndividualCustomer();
-                customer.CustomerCode = Request.Form["Customer.CustomerCode"];
-                customer.CustomerName = Request.Form["Customer.CustomerName"];
-                customer.CustomerDob = Convert.ToDateTime(Request.Form["Customer.CustomerDob"]);
-
                 if (ModelState.IsValid)
                 {
                     //Save Customer
@@ -65,7 +60,6 @@ namespace CustomerApplication.Controllers.Customer
                     customerDataAccess.Customers.Add(customer);
                     customerDataAccess.SaveChanges();
                 }
-
             }
             catch (DbEntityValidationException e)
             {

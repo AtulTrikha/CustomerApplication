@@ -21,5 +21,8 @@ namespace CustomerApplication.Models.Customer
 
         [Required]
         public DateTime CustomerDob { get; set; }
+
+        [Required]
+        public decimal CustomerAmount { get; set; }
     }
 }

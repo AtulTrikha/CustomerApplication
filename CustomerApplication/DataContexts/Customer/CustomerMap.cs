@@ -26,12 +26,16 @@ namespace CustomerApplication.DataContexts.Customer
             this.Property(t => t.CustomerDob)
                 .IsRequired();
 
+            this.Property(t => t.CustomerAmount)
+                .IsRequired();
+
             // Table & Column Mappings
             this.ToTable("Customer");
             this.Property(t => t.CustomerId).HasColumnName("Id");
             this.Property(t => t.CustomerName).HasColumnName("Name");
             this.Property(t => t.CustomerDob).HasColumnName("DateOfBirth");
             this.Property(t => t.CustomerCode).HasColumnName("Code");
+            this.Property(t => t.CustomerAmount).HasColumnName("Amount");
 
         }
     }
