@@ -11,27 +11,24 @@
     <meta name="viewport" content="width=device-width" />
     <title>EnterCustomer</title>
 </head>
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-<script src="~/Scripts/angular.js"></script>
-<script src="~/Scripts/Customer.js"></script>
-
-<script language="javascript">
-
-    var app = angular.module("myApp", []); // creating a APP
-    app.controller('CustomerViewModel', CustomerViewModel); // Registering the VM
-    // Controller
-</script>
-
-
 <body ng-app="myApp">
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/Customer.js"></script>
+
+    <script language="javascript">
+        var app = angular.module("myApp", []); // creating a APP
+        app.controller('CustomerViewModel', CustomerViewModel); // Registering the VM
+    </script>
+
     <a href="/Home/Index"> Home </a> <br />
     <a href="/Customer/ShowSearchCustomerView"> Search Customer </a> <br />
     <br />
     <div>
         <div ng-controller="CustomerViewModel">
-            <form id="frm1">
+            <form id="CustomerForm">
                 <i> Customer Code </i> <input id="Text1" ng-model="Customer.CustomerCode" type="text" name="Customer.CustomerCode" /><br />
                 @Html.ValidationMessageFor(x => x.Customer.CustomerCode)<br />
 
@@ -49,7 +46,7 @@
             <input id="Btn" type="button" value="Add customer" ng-click="Add()" />
 
             <br />
-            <table id="tbl">
+            <table id="CustomerDispalyTable">
                 <tr>
                     <td>Customer Code</td>
                     <td>Customer Name</td>

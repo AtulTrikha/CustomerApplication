@@ -36,18 +36,18 @@ namespace CustomerApplication.Controllers.Customer
             return View("SearchCustomerView", customerViewModel);
         }
 
-        public ActionResult SearchCustomer()
-        {
-            //TODO: Change in Future to Model Binder
-            IndividualCustomerViewModel customerViewModel = new IndividualCustomerViewModel();
-            String customerName = Request.Form["CustomerName"].ToString();
+        //public ActionResult SearchCustomer()
+        //{
+        //    //TODO: Change in Future to Model Binder
+        //    IndividualCustomerViewModel customerViewModel = new IndividualCustomerViewModel();
+        //    String customerName = Request.Form["CustomerName"].ToString();
 
-            //Get Customer
-            customerViewModel.Customers = GetCustomer(customerName);
+        //    //Get Customer
+        //    customerViewModel.Customers = GetCustomer(customerName);
 
-            //Show Customer View
-            return View("SearchCustomerView", customerViewModel);
-        }
+        //    //Show Customer View
+        //    return View("SearchCustomerView", customerViewModel);
+        //}
 
         public ActionResult SaveCustomer(IndividualCustomer customer)
         {
@@ -78,22 +78,22 @@ namespace CustomerApplication.Controllers.Customer
             return GetCustomerJson();
         }
 
-        private List<IndividualCustomer> GetCustomer()
-        {
-            CustomerDataContext customerDataAccess = new CustomerDataContext();
-            List<IndividualCustomer> customers = customerDataAccess.Customers.ToList<IndividualCustomer>();
-            return customers;
-        }
+        //private List<IndividualCustomer> GetCustomer()
+        //{
+        //    CustomerDataContext customerDataAccess = new CustomerDataContext();
+        //    List<IndividualCustomer> customers = customerDataAccess.Customers.ToList<IndividualCustomer>();
+        //    return customers;
+        //}
 
-        private List<IndividualCustomer> GetCustomer(string customerName)
-        {
-            CustomerDataContext customerDataAccess = new CustomerDataContext();
-            List<IndividualCustomer> customers = (from customer in customerDataAccess.Customers
-                                                  where customer.CustomerName == customerName
-                                                  orderby customer.CustomerName
-                                                  select customer).ToList<IndividualCustomer>();
-            return customers;
-        }
+        //private List<IndividualCustomer> GetCustomer(string customerName)
+        //{
+        //    CustomerDataContext customerDataAccess = new CustomerDataContext();
+        //    List<IndividualCustomer> customers = (from customer in customerDataAccess.Customers
+        //                                          where customer.CustomerName == customerName
+        //                                          orderby customer.CustomerName
+        //                                          select customer).ToList<IndividualCustomer>();
+        //    return customers;
+        //}
 
         public JsonResult GetCustomerJson()
         {
@@ -102,5 +102,15 @@ namespace CustomerApplication.Controllers.Customer
             return Json(customers, JsonRequestBehavior.AllowGet);
         }
 
+        [ActionName("GetCustomerByNameJson")]
+        public JsonResult GetCustomerJson(IndividualCustomer customer)
+        {
+            CustomerDataContext customerDataAccess = new CustomerDataContext();
+            List<IndividualCustomer> customers = (from item in customerDataAccess.Customers
+                                                  where item.CustomerName == customer.CustomerName
+                                                  orderby item.CustomerName
+                                                  select item).ToList<IndividualCustomer>();
+            return Json(customers, JsonRequestBehavior.AllowGet);
+        }
     }
 }
