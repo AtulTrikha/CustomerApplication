@@ -1,8 +1,5 @@
 ﻿@model CustomerApplication.ViewModels.Customer.IndividualCustomerViewModel
 @using CustomerApplication.Models;
-@{
-    Layout = null;
-}
 
 <!DOCTYPE html>
 
@@ -19,9 +16,8 @@
         var app = angular.module("myApp", []); // creating a APP
         app.controller('CustomerViewModel', CustomerViewModel); // Registering the VM
     </script>
-
-    <a href="/Home/Index"> Home </a><br />
     <div ng-controller="CustomerViewModel">
+        <br />
         Enter Customer Name : <input name="CustomerName" id="CustomerName" type="text" ng-model="Customer.CustomerName" />
         <br />
         <input id="SearchCustomer" name="SearchCustomer" type="button" value="Search Customer" ng-click="LoadByName()" />            

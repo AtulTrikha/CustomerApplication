@@ -1,9 +1,5 @@
 ﻿@model CustomerApplication.ViewModels.Customer.IndividualCustomerViewModel
 
-@{
-    Layout = null;
-}
-
 <!DOCTYPE html>
 
 <html>
@@ -22,9 +18,6 @@
         var app = angular.module("myApp", []); // creating a APP
         app.controller('CustomerViewModel', CustomerViewModel); // Registering the VM
     </script>
-
-    <a href="/Home/Index"> Home </a> <br />
-    <a href="/CustomerUI/ShowSearchCustomerView"> Search Customer </a> <br />
     <br />
     <div>
         <div ng-controller="CustomerViewModel">
@@ -61,6 +54,7 @@
                 </tr>
             </table>
         </div>
+        <a href="/CustomerUI/ShowSearchCustomerView"> Search Customer </a> <br />
     </div>
 </body>
 </html>
