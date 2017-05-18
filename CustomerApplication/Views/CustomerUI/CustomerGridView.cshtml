@@ -1,0 +1,77 @@
+﻿@model CustomerApplication.ViewModels.Customer.IndividualCustomerViewModel
+@using CustomerApplication.Models;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CustomerResults</title>
+    <style>
+        .Grid td {
+            padding: 3px;
+        }
+
+        .Grid {
+            border-collapse: collapse;
+        }
+
+        .GridHeader th {
+            background-color: lightblue;
+            border: 1px solid black;
+        }
+
+        .Grid td {
+            background-color: lightgray;
+            border: 1px solid black;
+        }
+
+        .AltRow td {
+            background-color: lightpink;
+        }
+
+        .GridFooter td {
+            background-color: lightgreen;
+        }
+    </style>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script>
+        function EditCustomer(CustomerName) {
+            $.get("EditCustomer", "CustomerName=" + CustomerName).done(function (r) {
+                alert(r);
+            });
+        }
+    </script>
+</head>
+<body ng-app="myApp">
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/Customer.js"></script>
+
+    <script language="javascript">
+        var app = angular.module("myApp", []); // creating a APP
+        app.controller('CustomerViewModel', CustomerViewModel); // Registering the VM
+    </script>
+    <div >
+        @{
+            WebGrid customerWebGrid = new WebGrid(Model.Customers, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "CustomerGrid");
+            customerWebGrid.Pager(WebGridPagerModes.NextPrevious);
+
+            <div id="CustomerGrid">
+                @customerWebGrid.GetHtml(tableStyle: "Grid",
+                      headerStyle: "GridHeader",
+                      alternatingRowStyle: "AltRow",
+                      footerStyle: "GridFooter",
+                         columns: customerWebGrid.Columns
+                        (
+                             customerWebGrid.Column("CusromerCode", "Code", format: @<text>@item.CustomerCode</text>),
+                             customerWebGrid.Column("CustomerName", "Customer Name", format: @<text>@item.CustomerName (@item.CustomerAmount)</text>),
+                             customerWebGrid.Column("CustomerDob", "CustomerDob"),
+                             customerWebGrid.Column(format: @<text><a href="#" onclick="EditCustomer('@item.CustomerName')">Edit</a> </text>)
+                 )
+             )
+            </div>
+        }
+    </div>
+    <br />
+</body>
+</html>

@@ -192,6 +192,8 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\CustomerUI\DisplayCustomers.cshtml" />
     <Content Include="Views\CustomerUI\SearchCustomerView.cshtml" />
+    <Content Include="Views\CustomerUI\CustomerWebGridView.cshtml" />
+    <Content Include="Views\CustomerUI\CustomerGridView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
