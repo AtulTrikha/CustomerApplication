@@ -36,7 +36,11 @@
 
     $scope.Add = function () {
         // make a call to server to add data
-        $http({ method: "POST", data: $scope.Customer, url: "SaveCustomer" }).
+        $http({
+            method: "POST",
+            data: $scope.Customer,
+            url: "/api/Customer"
+        }).
             then(function (response, status, headers, config) {
                 $scope.Customers = response.data;
                 // Load the collection of customer.
@@ -54,7 +58,7 @@
         debugger;
         $http({
             method: "GET",
-            url: "GetCustomerJson"
+            url: "/api/Customer"
         }).then(function (response) {
             $scope.Customers = response.data;
         },
@@ -68,9 +72,8 @@
     $scope.LoadByName = function () {
         debugger;
         $http({
-            method: "POST",
-            data: $scope.Customer,
-            url: "GetCustomerByNameJson"
+            method: "GET",
+            url: "/api/Customer?CustomerName=" + $scope.Customer.CustomerName
         }).then(function (response) {
             $scope.Customers = response.data;
         },
