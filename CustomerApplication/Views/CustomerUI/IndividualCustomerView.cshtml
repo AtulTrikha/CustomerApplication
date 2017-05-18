@@ -21,23 +21,23 @@
     <br />
     <div>
         <div ng-controller="CustomerViewModel">
-            <form id="CustomerForm">
-                <i>Customer Code  :</i> <input id="Customer.CustomerCode" ng-model="Customer.CustomerCode" type="text" name="Customer.CustomerCode" /><br />
+            <form id="CustomerForm" name="CustomerForm">
+                <i>Customer Code  :</i> <input id="CustomerCode" name="CustomerCode"  required ng-model="Customer.CustomerCode" type="text" /><br />
                 @Html.ValidationMessageFor(x => x.Customer.CustomerCode)<br />
-
-                <i>Customer Name  :</i> <input id="Customer.CustomerName" ng-model="Customer.CustomerName" type="text" name="Customer.CustomerName" /> <br />
+                
+                <i>Customer Name  :</i> <input id="Customer.CustomerName" required ng-model="Customer.CustomerName" type="text" name="Customer.CustomerName" /> <br />
                 @Html.ValidationMessageFor(x => x.Customer.CustomerName)<br />
 
 
                 <i>Customer DOB   : </i> <input id="Customer.CustomerDob" ng-model="Customer.CustomerDob" type="text" name="Customer.CustomerDob" /><br />
                 @Html.ValidationMessageFor(x => x.Customer.CustomerDob)<br />
 
-                <i>Customer Amount:</i> <input id="Customer.CustomerAmount" type="text" ng-model="Customer.CustomerAmount" 
+                <i>Customer Amount:</i> <input id="Customer.CustomerAmount" type="text" ng-model="Customer.CustomerAmount"
                                                style="background-color: {{ Customer.CustomerAmountColor }}"
                                                name="customer.CustomerAmount" /><br />
             </form>
             <br />
-            <input id="Btn" type="button" value="Add customer" ng-click="Add()" />
+            <input id="Btn" type="button" ng-disabled="!(CustomerForm.$valid)" value="Add customer" ng-click="Add()" />
             <input id="Btn" type="button" value="Update customer" ng-click="Update()" />
             <input id="Btn" type="button" value="Delete customer" ng-click="Delete()" />
 
