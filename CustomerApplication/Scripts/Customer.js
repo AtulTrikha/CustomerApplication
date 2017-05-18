@@ -22,10 +22,10 @@
             return "";
         }
         else if (Amount > 100) {
-            return "Blue";
+            return "Yellow";
         }
         else {
-            return "Red";
+            return "Aqua";
         }
     }
 
