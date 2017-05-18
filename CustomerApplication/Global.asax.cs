@@ -7,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Http;
 using System.Web.Routing;
+using CustomerApplication.Exception;
 
 namespace CustomerApplication
 {
@@ -19,6 +20,7 @@ namespace CustomerApplication
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            GlobalFilters.Filters.Add(new CustomHandleErrorAttribute());
         }
     }
 }

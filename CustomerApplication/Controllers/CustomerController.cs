@@ -12,6 +12,7 @@ namespace CustomerApplication.Controllers
     public class CustomerController : ApiController
     {
 
+        
         public List<IndividualCustomer> POST(IndividualCustomer customer)
         {
             CustomerDataContext customerDataAccess = new CustomerDataContext();

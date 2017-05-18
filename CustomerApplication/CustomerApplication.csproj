@@ -139,6 +139,7 @@
     <Compile Include="DataContexts\Admin\AdminDataContext.cs" />
     <Compile Include="DataContexts\Customer\CustomerDataContext.cs" />
     <Compile Include="DataContexts\Customer\CustomerMap.cs" />
+    <Compile Include="Exception\CustomHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
