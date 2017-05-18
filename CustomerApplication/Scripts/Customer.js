@@ -68,19 +68,35 @@
                });
     }
 
-
-    $scope.LoadByName = function () {
+    $scope.LoadByName = function (CustomerName) {
         debugger;
         $http({
             method: "GET",
-            url: "/api/Customer?CustomerName=" + $scope.Customer.CustomerName
+            url: "/api/Customer?CustomerName=" + CustomerName
         }).then(function (response) {
             $scope.Customers = response.data;
-        },
-               function errorCallback(response) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
-            });
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+    }
+
+    $scope.LoadByCode = function (CustomerCode) {
+        debugger;
+        $http({
+            method: "GET",
+            url: "/api/Customer?CustomerCode=" + CustomerCode
+        }).then(function (response) {
+            $scope.Customer = {
+                "CustomerCode": response.data.CustomerCode,
+                "CustomerName": response.data.CustomerName,
+                "CustomerDob": response.data.CustomerDob,
+                "CustomerAmount": response.data.CustomerAmount
+            };
+        },function errorCallback(response) {
+                   // called asynchronously if an error occurs
+                   // or server returns response with an error status.
+               });
     }
 
     $scope.Load();

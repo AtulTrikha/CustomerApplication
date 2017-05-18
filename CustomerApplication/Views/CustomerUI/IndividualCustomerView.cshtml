@@ -22,35 +22,39 @@
     <div>
         <div ng-controller="CustomerViewModel">
             <form id="CustomerForm">
-                <i> Customer Code </i> <input id="Text1" ng-model="Customer.CustomerCode" type="text" name="Customer.CustomerCode" /><br />
+                <i>Customer Code  :</i> <input id="Customer.CustomerCode" ng-model="Customer.CustomerCode" type="text" name="Customer.CustomerCode" /><br />
                 @Html.ValidationMessageFor(x => x.Customer.CustomerCode)<br />
 
-                <i>Customer Name</i> <input id="Text1" ng-model="Customer.CustomerName" type="text" name="Customer.CustomerName" /> <br />
+                <i>Customer Name  :</i> <input id="Customer.CustomerName" ng-model="Customer.CustomerName" type="text" name="Customer.CustomerName" /> <br />
                 @Html.ValidationMessageFor(x => x.Customer.CustomerName)<br />
 
 
-                <i> Customer DOB </i> <input id="Text1" ng-model="Customer.CustomerDob" type="text" name="Customer.CustomerDob" /><br />
+                <i>Customer DOB   : </i> <input id="Customer.CustomerDob" ng-model="Customer.CustomerDob" type="text" name="Customer.CustomerDob" /><br />
                 @Html.ValidationMessageFor(x => x.Customer.CustomerDob)<br />
 
-                <i> Customer Amount </i> <input id="Text1" type="text" ng-model="Customer.CustomerAmount"
-                                                style="background-color: {{ Customer.CustomerAmountColor }}"
-                                                name="customer.CustomerAmount" /><br />
+                <i>Customer Amount:</i> <input id="Customer.CustomerAmount" type="text" ng-model="Customer.CustomerAmount" 
+                                               style="background-color: {{ Customer.CustomerAmountColor }}"
+                                               name="customer.CustomerAmount" /><br />
             </form>
             <input id="Btn" type="button" value="Add customer" ng-click="Add()" />
+            <input id="Btn" type="button" value="Update customer" ng-click="Add()" />
+            <input id="Btn" type="button" value="Delete customer" ng-click="Add()" />
 
             <br />
             <table id="CustomerDispalyTable">
                 <tr>
                     <td>Customer Code</td>
                     <td>Customer Name</td>
+                    <td>Customer Dob</td>
                     <td>Customer Amount</td>
                 </tr>
                 <tr ng-repeat="cust in Customers">
                     <td>{{cust.CustomerCode}}</td>
                     <td>{{cust.CustomerName}}</td>
+                    <td>{{cust.CustomerDob}}</td>
                     <td style="background-color: {{ cust.CustomerAmountColor }}">
                         {{cust.CustomerAmount}}
-                    </td>
+                    <td><a ng-click="LoadByCode(cust.CustomerCode)" href="#">Select</a></td>
                 </tr>
             </table>
         </div>
