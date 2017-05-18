@@ -87,18 +87,49 @@
             method: "GET",
             url: "/api/Customer?CustomerCode=" + CustomerCode
         }).then(function (response) {
-            $scope.Customer = {
-                "CustomerCode": response.data.CustomerCode,
-                "CustomerName": response.data.CustomerName,
-                "CustomerDob": response.data.CustomerDob,
-                "CustomerAmount": response.data.CustomerAmount
-            };
+            $scope.Customer = response.data;
         },function errorCallback(response) {
                    // called asynchronously if an error occurs
                    // or server returns response with an error status.
                });
     }
 
-    $scope.Load();
-    // App
+    $scope.Update = function () {
+        // make a call to server to add data
+        $http({
+            method: "PUT",
+            data: $scope.Customer,
+            url: "/Api/Customer"
+        }).
+            then(function (response) {
+                $scope.Customers = response.data;
+                // Load the collection of customer.
+                $scope.Customer = {
+                    "CustomerCode": "",
+                    "CustomerName": "",
+                    "CustomerAmount": "",
+                    "CustomerAmountColor": ""
+                };
+            });
+    }
+
+    $scope.Delete = function () {
+        // make a call to server to add data
+        $http.defaults.headers["delete"] = {
+            'Content-Type': 'application/json;charset=utf-8'
+        };
+        $http({ method: "DELETE", data: $scope.Customer, url: "/Api/Customer" }).
+            then(function (response) {
+                $scope.Customers = response.data;
+                // Load the collection of customer.
+                $scope.Customer = {
+                    "CustomerCode": "",
+                    "CustomerName": "",
+                    "CustomerAmount": "",
+                    "CustomerAmountColor": ""
+                };
+            });
+    }
+
+    $scope.Load();   
 }
